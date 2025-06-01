@@ -11,7 +11,9 @@ COPY package*.json ./
 RUN npm install postcss@7.0.39 --save-exact
 
 # Install rest of dependencies (which will use PostCSS v7 instead of latest)
-RUN npm install
+RUN npm install -g npm-force-resolutions \
+    && npx npm-force-resolutions \
+    && npm install
 
 # Copy remaining application code
 COPY . .

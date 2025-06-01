@@ -18,6 +18,9 @@ RUN npm install -g npm-force-resolutions \
 # Copy remaining application code
 COPY . .
 
+# Set legacy OpenSSL provider for Node 17+ to fix webpack build issues
+ENV NODE_OPTIONS=--openssl-legacy-provider
+
 # Build the React app
 RUN npm run build
 

@@ -1,26 +1,26 @@
-# Use the official Node.js 18 image as the base image
+# Use official Node.js 18 image
 FROM node:18
 
-# Set the working directory inside the container
+# Set working directory
 WORKDIR /app
 
-# Copy only the package.json and package-lock.json first
+# Copy only dependency files first
 COPY package*.json ./
 
-# Install compatible postcss version (to fix build errors)
+# Install specific PostCSS v7 version before any other install
 RUN npm install postcss@7.0.39 --save-exact
 
-# Install remaining project dependencies
+# Install rest of dependencies (which will use PostCSS v7 instead of latest)
 RUN npm install
 
-# Copy the rest of the application source code
+# Copy remaining application code
 COPY . .
 
 # Build the React app
 RUN npm run build
 
-# Expose the port that the app will run on
+# Expose the port
 EXPOSE 3000
 
-# Start the React app
-CMD [ "npm", "start" ]
+# Run the app
+CMD ["npm", "start"]
